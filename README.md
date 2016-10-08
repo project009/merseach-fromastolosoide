@@ -8,7 +8,7 @@ Esse servidor sempre será uma versão experimental de codar funções do jogo. 
 <h4>Desenvolvedores Atuais.</h4>
 Victor GCB Hiro Yusuke(Firefoxmito)
 
-O que funciona?É possivel logar, comprar itens na loja, Registrar nick, New characters e jogar PVP no momento.
+O que funciona?É possivel logar, comprar itens na loja, Registrar nick, New characters e jogar PVP e Missao no momento.
 <h4>Como compilar?</h4>
 Projeto criado com o Delphi XE7, porém pode ser compilado com qualquer versão mais recente.GCDLL LibNa source terá uma referência à "GCDLL.dll""GCDLL" é uma lib privada e não será compartilhada nesse projeto. Não será liberada mas talvez alguém possa fazer isso pra você, ou você mesmo xDEla precisa estar nesse formato:
 
