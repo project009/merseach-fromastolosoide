@@ -1,5 +1,4 @@
-# merseach-fromastolosoide
-Emulador-Season-IV
+<Div Align="Center"><h1>Emulador-Season-IV></h1></Div>
 
 Bem vindo à página do GCIV Custom Server, um servidor para Grand Chase versão Eternal.
 
@@ -24,3 +23,4 @@ mais ela pode ser feita! e tem que estar com as seguintes Funçoes:
 
 
 <img src=http://i.imgur.com/SknoQLu.jpg>
+<h1>
