@@ -9,6 +9,7 @@ uses
   System.SysUtils,
   System.SyncObjs,
   Windows,
+  inifiles,
   System.DateUtils,
   GlobalDefs in 'Data\GlobalDefs.pas',
   Log in 'Functions\Log.pas',
@@ -32,9 +33,13 @@ var
   bRet: LongBool;
   UpTime: TDateTime;
   TimeInit: Integer;
+  PortaMestre: integer;
+  ini: TInifile;
 
 begin
+    ini:=TIniFile.Create(ExtractFilePath(ParamStr(0))+'\config_server.ini');
   try
+    PortaMestre:=ini.ReadInteger('GameServer','PortMaster',0);
     SetConsoleTitle('Game Server');
     MainCS:=TCriticalSection.Create;
     Randomize;
@@ -42,7 +47,8 @@ begin
     Logger:=TLog.Create;
     Logger.Write('Iniciando servidor',ServerStatus);
     try
-      Server:=TServer.Create(4132);
+      Server:=TServer.Create(PortaMestre);
+      Writeln('Porta: ',PortaMestre);
       if Server.Socket.Active = True then begin
         TimeInit:=MilliSecondsBetween(Now, UpTime);
         Logger.Write('Servidor levou ' + IntToStr(TimeInit) + ' milisegundos para carregar(aprox: ' + FloatToStr(TimeInit/1000) +' segundos).', Warnings);
