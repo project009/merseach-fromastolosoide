@@ -1,4 +1,4 @@
-<Div Align="Center"><h1>Emulador-Season-IV></h1></Div>
+<Div Align="Center"><h1>Emulador-Season-IV</h1></Div>
 
 Bem vindo à página do GCIV Custom Server, um servidor para Grand Chase versão Eternal.
 
