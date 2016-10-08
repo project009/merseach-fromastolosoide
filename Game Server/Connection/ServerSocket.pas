@@ -3624,23 +3624,36 @@ begin
 end;
 
 constructor TServer.Create(Port: Integer);
+var
+fileHost: AnsiString;
+filePort: integer;
+fileUser: Ansistring;
+filePass: AnsiString;
+fileDb: Ansistring;
+ini: TIniFile;
 begin
+  ini:=TIniFile.Create(ExtractFilePath(ParamStr(0))+'\config_server.ini');
   cUnknown:=TUnknown.Create;
-  Logger.Write('Carregando sort_us.stg',ServerStatus);
   SortUs:=TSortUS.Create('sort_us.stg');
+  fileHost:=ini.ReadString('GameServer','Host','');
+  filePort:=ini.ReadInteger('GameServer','Port',0);
+  fileUser:=ini.ReadString('GameServer','User','');
+  filePass:=ini.ReadString('GameServer','Pass','');
+  fileDb:=ini.ReadString('GameServer','Db','');
+  WriteLN('Conexao:');
+  WriteLN('');
+  writeln(' ',fileHost,' ',filePort,' ',fileUser,' ',filePass,' ',fileDB);
   if SortUS.Loaded = True then
-    Logger.Write(Format('Carregado (%d items)',[SortUS.Items.Count]),Warnings)
+    Logger.Write(Format('Items Do Shop: (%d items)',[SortUS.Items.Count]),Warnings)
   else begin
     Logger.Write('Erro ao carregar o sort_us.stg',Errors);
     Exit;
   end;
   Players:=TList<TPlayer>.Create;
   Lobby:=TLobby.Create;
-  Logger.Write('Conectando na database',ServerStatus);
-  MySQL:=TQuery.Create('127.0.0.1',3306,'root','root','gc');
+  MySQL:=TQuery.Create(filehost,filePort,fileUser,filePass,fileDB);
   if MySQL.MySQL.Connected = True then begin
     Shop:=TShop.Create(MySQL);
-    Logger.Write('Conectado',Warnings);
     Self.Socket:=TServerSocket.Create(nil);
     Self.Socket.OnClientConnect:=Self.OnConnect;
     Self.Socket.OnClientRead:=Self.OnRead;
