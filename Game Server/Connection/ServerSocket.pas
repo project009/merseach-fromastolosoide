@@ -3,7 +3,7 @@
 interface
 
 uses System.Win.ScktComp, System.Generics.Collections, Player, Misc, System.SysUtils,
-     Windows, Unknown, DBCon, Shop, System.StrUtils, SortUS, Lobby;
+     Windows, Unknown, DBCon, Shop, System.StrUtils, SortUS, Lobby,inifiles;
 
 type
   TServer = class
