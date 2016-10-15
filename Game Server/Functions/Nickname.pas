@@ -13,7 +13,7 @@ type
       constructor Create(MySQL: TQuery;AccInfo: TAccountInfo);
       procedure Update;
   end;
-
+//Nao Mude Nada :D n tem mais oque fazer nessa .pas ^^
 implementation
 
 constructor TNickname.Create(MySQL: TQuery;AccInfo: TAccountInfo);
