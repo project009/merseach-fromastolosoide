@@ -3,7 +3,7 @@ unit Player;
 interface
 
 uses System.Win.ScktComp, System.SysUtils, CryptLib, Misc, System.StrUtils,
-     Windows, Data.DB, Currencys, DBCon, AccountInfo, Characters, Inventory,
+     Windows, Data.DB,Nickname, Currencys, DBCon, AccountInfo, Characters, Inventory,
      Pets, SortUS;
 
 type
@@ -17,6 +17,7 @@ type
     Inventory: TInventory;
     SortUS: TSortUS;
     Pets: TPet;
+    Nickname: TNickname;
     ID: Integer;
     procedure LoadLogin;
     procedure Send;
@@ -37,8 +38,8 @@ begin
   Self.SortUS:=SortUS;
   ID:=0;
   Buffer:=TCryptLib.Create;
-  Buffer.IV:=#$C7#$D8#$C4#$BF#$B5#$E9#$C0#$FD; //IV padr„o pego do main
-  Buffer.IV2:=#$C0#$D3#$BD#$C3#$B7#$CE#$B8#$B8; //IV2 padr„o pego do main
+  Buffer.IV:=#$C7#$D8#$C4#$BF#$B5#$E9#$C0#$FD; //IV padr√£o pego do main
+  Buffer.IV2:=#$C0#$D3#$BD#$C3#$B7#$CE#$B8#$B8; //IV2 padr√£o pego do main
   TIV:=GerarCode;
   TIV2:=GerarCode;
   Buffer.Prefix:=Copy(GerarCode,1,2);
@@ -89,7 +90,7 @@ begin
     Server.MySQL.Run(1);
     if Server.MySQL.Query.IsEmpty = False then begin
       if (Server.MySQL.Query.Fields[3].AsInteger = 0) or (Server.MySQL.Query.Fields[4].AsInteger = 1) then begin
-        Logger.Write(Format('Usu·rio j· logado [Handle: %d]',[Socket.Handle]),Errors);
+        Logger.Write(Format('Usu√°rio j√° logado [Handle: %d]',[Socket.Handle]),Errors);
         Socket.Close;
         Exit;
       end;
@@ -97,6 +98,7 @@ begin
       //Poe GS como logado
 
       AccInfo:=TAccountInfo.Create(MySQL.Query.Fields[0].AsInteger,MySQL);
+      Nickname:=TNickname.Create(MySQL,AccInfo);
       Currency:=TCurrency.Create(MySQL,AccInfo);
       Chars:=TCharacters.Create(MySQL,AccInfo);
       Inventory:=TInventory.Create(MySQL,AccInfo);
@@ -159,8 +161,8 @@ begin
         Write(Word(3));
         WriteCd(Dword(Length(AccInfo.Login)*2));
         WriteZd(AccInfo.Login);
-        WriteCd(Dword(Length(AccInfo.Nick)*2));
-        WriteZd(AccInfo.Nick);
+        WriteCd(Dword(Length(Nickname.Nick)*2));
+        WriteZd(Nickname.Nick);
         Write(#$00);
         WriteCd(Dword(Currency.GP));
         Write(#$D0#$04#$06#$C0#$10#$04#$06#$FD#$01);
@@ -447,3 +449,4 @@ begin
 end;
 
 end.
+
