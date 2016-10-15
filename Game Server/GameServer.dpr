@@ -26,6 +26,7 @@ uses
   Shop in 'Functions\Shop.pas',
   SortUS in 'Functions\SortUS.pas',
   Lobby in 'Functions\Lobby.pas',
+  Nickname in 'Functions\Nickname.pas',  
   Pets in 'Functions\Pets.pas';
 
 var
