@@ -11,10 +11,11 @@ type
     public
       ID: Integer;
       Login: AnsiString;
-      Nick: AnsiString;
       Char: Integer;
       Room: Integer;
       GM: Boolean;
+      Win: Integer;
+      Loss: Integer;
       constructor Create(ID: Integer; MySQL: TQuery);
       procedure Update;
   end;
@@ -25,14 +26,16 @@ constructor TAccountInfo.Create(ID: Integer; MySQL: TQuery);
 begin
   Self.ID:=ID;
   Self.MySQL:=MySQL;
-  MySQL.SetQuery('SELECT LOGIN, NICK, SCHAR, GM FROM Users WHERE ID = :ID');
+  MySQL.SetQuery('SELECT LOGIN,SCHAR, GM,Win,Loss FROM Users WHERE ID = :ID');
   MySQL.AddParameter('ID',AnsiString(IntToStr(ID)));
   MySQL.Run(1);
   if MySQL.Query.IsEmpty = False then begin
     Login:=MySQL.Query.Fields[0].AsAnsiString;
-    Nick:=MySQL.Query.Fields[1].AsAnsiString;
-    Char:=MySQL.Query.Fields[2].AsInteger;
-    GM:=Boolean(MySQL.Query.Fields[3].AsInteger);
+    Char:=MySQL.Query.Fields[1].AsInteger;
+    GM:=Boolean(MySQL.Query.Fields[2].AsInteger);
+    Win:=MySQL.Query.Fields[3].AsInteger;
+    Loss:=MySQL.Query.Fields[4].AsInteger;
+    MySQL.Query.Next;
   end;
   Room:=-1;
 end;
@@ -46,3 +49,4 @@ begin
 end;
 
 end.
+
