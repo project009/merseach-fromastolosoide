@@ -1,4 +1,4 @@
-﻿unit Lobby;
+unit Lobby;
 
 interface
 
@@ -369,8 +369,8 @@ begin
           Write(#$00#$00#$00#$3F#$00#$01);
           WriteCd(Dword(Player.AccInfo.ID));
           Write(#$00#$00#$00);
-          Write(Byte(Length(Player.AccInfo.Nick)*2));
-          WriteZd(Player.AccInfo.Nick);
+          Write(Byte(Length(Player.NickName.Nick)*2));
+          WriteZd(Player.NickName.Nick);
           Write(#$00#$00#$00#$00#$00#$00#$00#$00#$FF#$FF+
                 #$FF#$FF#$00#$00#$00);
           Write(Byte(Length(Msg)*2));
@@ -394,7 +394,7 @@ begin
   Msg:=Player.Buffer.RS(16+Player.Buffer.RCd(8),Player.Buffer.RCd(12+Player.Buffer.RCd(8)));
   Send:=False;
   for Temp in Players do
-    if Temp.AccInfo.Nick = Nick then begin
+    if Temp.NickName.Nick = Nick then begin
       Player.Buffer.BIn:='';
       with Player.Buffer do begin
         Write(Prefix);
@@ -402,11 +402,11 @@ begin
         WriteCw(Word(SVPID_WHISPER));
         Write(#$00#$00#$00#$5B#$00#$00#$00#$00#$00#$03);
         WriteCd(Dword(Player.AccInfo.ID));
-        WriteCd(Dword(Length(Player.AccInfo.Nick)*2));
-        WriteZd(Player.AccInfo.Nick);
+        WriteCd(Dword(Length(Player.NickName.Nick)*2));
+        WriteZd(Player.NickName.Nick);
         WriteCd(Dword(Temp.AccInfo.ID));
-        WriteCd(Dword(Length(Temp.AccInfo.Nick)*2));
-        WriteZd(Temp.AccInfo.Nick);
+        WriteCd(Dword(Length(Temp.NickName.Nick)*2));
+        WriteZd(Temp.NickName.Nick);
         Write(#$00#$00#$00#$00);
         WriteCd(Dword(Length(Msg)*2));
         WriteZd(Msg);
@@ -423,11 +423,11 @@ begin
         WriteCw(Word(SVPID_CHAT));
         Write(#$00#$00#$00#$45#$00#$03);
         WriteCd(Dword(Player.AccInfo.ID));
-        WriteCd(Dword(Length(Player.AccInfo.Nick)*2));
-        WriteZd(Player.AccInfo.Nick);
+        WriteCd(Dword(Length(Player.NickName.Nick)*2));
+        WriteZd(Player.NickName.Nick);
         WriteCd(Dword(Temp.AccInfo.ID));
-        WriteCd(Dword(Length(Temp.AccInfo.Nick)*2));
-        WriteZd(Temp.AccInfo.Nick);
+        WriteCd(Dword(Length(Temp.NickName.Nick)*2));
+        WriteZd(Temp.NickName.Nick);
         Write(#$00#$00#$00#$00);
         WriteCd(Dword(Length(Msg)*2));
         WriteZd(Msg);
@@ -448,8 +448,8 @@ begin
       WriteCw(Word(SVPID_WHISPER));
       Write(#$00#$00#$00#$4B#$00#$00#$00#$00#$04#$03);
       WriteCd(Dword(Player.AccInfo.ID));
-      WriteCd(Dword(Length(Player.AccInfo.Nick)*2));
-      WriteZd(Player.AccInfo.Nick);
+      WriteCd(Dword(Length(Player.NickName.Nick)*2));
+      WriteZd(Player.NickName.Nick);
       Write(#$00#$00#$00#$00);
       WriteCd(Dword(Length(Nick)*2));
       WriteZd(Nick);
@@ -541,8 +541,8 @@ begin
       WriteCd(Dword(Length(Player.AccInfo.Login)*2));
       WriteZd(Player.AccInfo.Login);
       WriteCd(Dword(Player.AccInfo.ID));
-      WriteCd(Dword(Length(Player.AccInfo.Nick)*2));
-      WriteZd(Player.AccInfo.Nick);
+      WriteCd(Dword(Length(Player.NickName.Nick)*2));
+      WriteZd(Player.NickName.Nick);
       WriteCd(Dword(Rooms[N].PlayerSlot(Player)));
       Write(Byte(Player.AccInfo.Char));
       Write(#$00#$FF#$00#$FF#$00#$FF#$00#$00#$00#$00#$00#$01#$00#$00#$00#$0D#$00#$00#$00#$00#$1F#$D1#$00#$00#$00#$00#$00#$4E#$00#$00+
@@ -772,8 +772,8 @@ begin
         Write(#$2E#$02#$1B#$25#$01#$00#$00#$00#$00#$01+
               #$6B#$F9#$38#$77#$00#$00#$00#$0C#$00#$00+
               #$00#$00#$00#$00#$00#$01);
-        WriteCd(Dword(Length(Rooms[i].GetLeader.AccInfo.Nick)*2));
-        WriteZd(Rooms[i].GetLeader.AccInfo.Nick);
+        WriteCd(Dword(Length(Rooms[i].GetLeader.NickName.Nick)*2));
+        WriteZd(Rooms[i].GetLeader.NickName.Nick);
         Write(#$0B#$00#$00#$00#$00#$00#$01#$00#$00#$00+
               #$00#$00#$00#$00#$00#$00#$00#$00#$00#$00+
               #$00#$00#$00#$00#$01#$00#$00#$00#$00#$00+
@@ -846,8 +846,8 @@ begin
             WriteCd(Dword(Length(Player.AccInfo.Login)*2));
             WriteZd(Player.AccInfo.Login);
             WriteCd(Dword(Player.AccInfo.ID));
-            WriteCd(Dword(Length(Player.AccInfo.Nick)*2));
-            WriteZd(Player.AccInfo.Nick);
+            WriteCd(Dword(Length(Player.NickName.Nick)*2));
+            WriteZd(Player.NickName.Nick);
             WriteCd(Dword(Rooms[Player.AccInfo.Room].PlayerSlot(Player)));
             Write(Byte(Player.AccInfo.Char));
             Write(#$00#$FF#$00#$FF#$00#$FF#$00#$00#$00#$00);
@@ -991,8 +991,8 @@ begin
             WriteCd(Dword(Length(Rooms[Player.AccInfo.Room].Players[i].Player.AccInfo.Login)*2));
             WriteZd(Rooms[Player.AccInfo.Room].Players[i].Player.AccInfo.Login);
             WriteCd(Dword(Rooms[Player.AccInfo.Room].Players[i].Player.AccInfo.ID));
-            WriteCd(Dword(Length(Rooms[Player.AccInfo.Room].Players[i].Player.AccInfo.Nick)*2));
-            WriteZd(Rooms[Player.AccInfo.Room].Players[i].Player.AccInfo.Nick);
+            WriteCd(Dword(Length(Rooms[Player.AccInfo.Room].Players[i].Player.NickName.Nick)*2));
+            WriteZd(Rooms[Player.AccInfo.Room].Players[i].Player.NickName.Nick);
             WriteCd(Dword(i));
             Write(Byte(Rooms[Player.AccInfo.Room].Players[i].Player.AccInfo.Char));
             Write(#$00#$FF#$00#$FF#$00#$FF#$00#$00#$00#$00);
@@ -1744,7 +1744,7 @@ begin
 
     for i:=0 to Length(Rooms[Player.AccInfo.Room].Players)-1 do begin
       if (Rooms[Player.AccInfo.Room].Players[i].Active) and (Rooms[Player.AccInfo.Room].Players[i].Player.AccInfo.ID = ID1) then begin
-        Nick1:=Rooms[Player.AccInfo.Room].Players[i].Player.AccInfo.Nick;
+        Nick1:=Rooms[Player.AccInfo.Room].Players[i].Player.NickName.Nick;
         Inc(Rooms[Player.AccInfo.Room].Players[i].Spree);
         Spree:='';
         if Rooms[Player.AccInfo.Room].Players[i].Spree = 3 then
@@ -1761,7 +1761,7 @@ begin
           Spree:=' e está Lendário';
       end;
       if (Rooms[Player.AccInfo.Room].Players[i].Active) and (Rooms[Player.AccInfo.Room].Players[i].Player.AccInfo.ID = ID2) then begin
-        Nick2:=Rooms[Player.AccInfo.Room].Players[i].Player.AccInfo.Nick;
+        Nick2:=Rooms[Player.AccInfo.Room].Players[i].Player.NickName.Nick;
         if Rooms[Player.AccInfo.Room].Players[i].Spree >= 3 then
           Parado:=True;
         Rooms[Player.AccInfo.Room].Players[i].Spree:=0;
