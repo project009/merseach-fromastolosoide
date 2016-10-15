@@ -18,6 +18,7 @@ type
     Shop: TShop;
     SortUS: TSortUS;
     Socket: TServerSocket;
+    Nick: AnsiString;    
     Lobby: TLobby;
     MySQL: TQuery;
     constructor Create(Port: Integer);
@@ -3567,6 +3568,31 @@ begin
                   end;
                   Player.Send;
                 end;
+                
+                  TCLPID(134):Begin
+                  Nick:=Player.Buffer.RS(12,Player.Buffer.RCd(8));
+                  Player.Nickname.Nick:=Nick;
+                  Player.Buffer.BIn:='';
+                   With Player.Buffer do Begin
+                   MySQL.SetQuery('INSERT INTO Nickname (ID,NICK)VAlUES(:ID,:NICK)');
+                   MySQL.AddParameter('ID',AnsiString(IntToStr(Player.AccInfo.ID)));
+                   MySQL.AddParameter('NICK',AnsiString(NICK));
+                   MySQL.Run(1);
+                   Writeln('Novo Registro de Nick: ',Nick);
+                    Write(Prefix);
+                    Write(Dword(Count));
+                    WriteCw(Word(135));
+                    Write(#$00#$00#$42#$00#$00#$00#$00#$00#$00#$00#$00#$00#$00#$00#$00#$00#$00#$00#$CD#$EA#$BD#$90#$54#$0E#$1B#$B0#$71#$41#$80#$06#$41#$14#$05#$E2#$36#$C4#$3D#$2F#$BB#$9A#$88#$8D#$E2#$41#$6B#$89#$6F#$ED#$F0#$C6#$85#$8A#$09#$E1#$7D#$35#$92#$39#$A8#$29#$0C#$B7#$66#$05#$70#$65#$72#$EE);
+                    WriteZD(Nick);
+                    Write(#$00#$00#$00#$00#$00#$00#$00#$00);
+                    FixSize;
+                    Encrypt(GenerateIV(0),Random($FF));
+                    ClearPacket();
+                End;
+                Player.Send;
+              end;
+                
+                
 
                 TCLPID(16): Lobby.SendRooms(Player);
                 TCLPID(20): Lobby.EnterRoom(Player);
