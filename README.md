@@ -5,7 +5,7 @@ Bem vindo à página do GCIV Custom Server, um servidor para Grand Chase versão
 Esse servidor sempre será uma versão experimental de codar funções do jogo. E acredito que alguém tentará trabalhar nesses arquivos ao invés de ficar esperando por releases.
 
 <h4>Desenvolvedores Atuais.</h4>
-Victor, Hiro,Capcom, Mavisson
+Hiro,Capcom, Mavisson
 
 No Jogo atualmente É possivel logar,Criar Contar, comprar itens na loja de GP,VP, Registrar nick, New characters e jogar PVP e Missao no momento,Equipar Pets e Emoticons.
 
