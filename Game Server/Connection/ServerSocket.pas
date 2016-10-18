@@ -3597,6 +3597,7 @@ begin
                 TCLPID(16): Lobby.SendRooms(Player);
                 TCLPID(20): Lobby.EnterRoom(Player);
                 TCLPID(24): Lobby.CreateRoom(Player);
+                TCLPID(62): Lobby.EquipItem(Player);
                 CLPID_EXITROOMREQUEST: Lobby.ExitRoom(Player);
                 CLPID_CHANGEGAMESETTINGS: Lobby.ChangeGameSettings(Player);
                 CLPID_CHANGEROOMSETTINGS: Lobby.ChangeRoomSettings(Player);
