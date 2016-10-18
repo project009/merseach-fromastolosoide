@@ -42,7 +42,7 @@ type
     CLPID_PREEVOLVE                         = $00E9,
     CLPID_NOTHING                           = $FFFF,
     CLPID_EQUIP_ITEM                        = $003E,
-
+    CLPID_REGNICK                           = $0086,
 
     CLPID_562                               = $0232
   );
@@ -74,7 +74,7 @@ type
     SVPID_PETREGISTER                       = $00CE,
     SVPID_PREEVOLVE                         = $00EA,
     SVPID_PETEVOLVE                         = $00EC,
-
+    SVPID_REGNICK                           = $0087,
     SVPID_UNKNOWN_0611                      = $0611,
     SVPID_UNKNOWN_0414                      = $0414,
 
