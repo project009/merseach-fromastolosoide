@@ -95,6 +95,7 @@ type
     procedure ParseGMCommand(Player: TPlayer; Text: AnsiString);
     procedure EndGame(Player: TPlayer);
     procedure KnS(Player: TPlayer);
+    procedure EquipItem(Player: TPlayer);
   end;
 
 implementation
@@ -2242,5 +2243,24 @@ begin
       Rooms[Player.AccInfo.Room].Players[i].Player.Send;
     end;
 end;
+
+procedure TLobby.EquipItem(Player : TPlayer);
+var
+ItemID: integer;
+begin
+ItemID:=126748748778;
+Player.Buffer.BIn:='';
+with Player.Buffer do begin
+Write(Prefix);
+Write(Dword(Count));
+Write($63);
+Write(#$00#$00#$00#$01#$00#$00#$00#$00#$00#$00);
+FixSize;
+Encrypt(GenerateIV(0),Random($FF));
+ClearPacket();
+end;
+Player.Send;
+end;
+
 
 end.
