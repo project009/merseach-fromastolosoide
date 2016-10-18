@@ -41,6 +41,7 @@ type
     CLPID_PETREGISTER                       = $00CD,
     CLPID_PREEVOLVE                         = $00E9,
     CLPID_NOTHING                           = $FFFF,
+    CLPID_EQUIP_ITEM                        = $003E,
 
 
     CLPID_562                               = $0232
