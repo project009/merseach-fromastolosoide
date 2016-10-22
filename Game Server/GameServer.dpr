@@ -27,7 +27,8 @@ uses
   SortUS in 'Functions\SortUS.pas',
   Lobby in 'Functions\Lobby.pas',
   Nickname in 'Functions\Nickname.pas',  
-  Pets in 'Functions\Pets.pas';
+  Pets in 'Functions\Pets.pas',
+  Packets in 'Functions\Packets.pas';
 
 var
   Msg: TMsg;
