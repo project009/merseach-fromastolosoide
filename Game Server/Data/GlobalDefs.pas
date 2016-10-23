@@ -43,7 +43,7 @@ type
     CLPID_NOTHING                           = $FFFF,
     CLPID_EQUIP_ITEM                        = $003E,
     CLPID_REGNICK                           = $0086,
-
+    CLIPD_NEWCHAR                           = $0580,
     CLPID_562                               = $0232
   );
 
@@ -77,7 +77,7 @@ type
     SVPID_REGNICK                           = $0087,
     SVPID_UNKNOWN_0611                      = $0611,
     SVPID_UNKNOWN_0414                      = $0414,
-
+    SVPID_NEWCHAR                           = $0581,
     SVPID_NOTHING                           = $FFFF
   );
 
