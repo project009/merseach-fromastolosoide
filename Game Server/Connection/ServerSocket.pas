@@ -3591,7 +3591,23 @@ begin
                 End;
                 Player.Send;
               end;
-                
+                 TCLPID(1408):Begin
+                 Player.Buffer.BIn:='';
+                 With Player.Buffer do Begin
+                   MySQL.SetQuery('INSERT INTO characters(ID,CHARID)VALUES(:ID,1)');
+                   MySQL.AddParameter('ID',AnsiString(IntToStr(Player.AccInfo.ID)));
+                   //MySQL.AddParameter('CHARID',AnsiString(CHARID));
+                   MySQL.Run(1);
+                   Write(Prefix);
+                   Write(Dword(Count));
+                   WriteCw(Word(1409));
+                   Write(#$00#$00#$32#$00#$00#$00#$00#$00#$00#$00#$00#$00#$00#$00#$00#$00#$00#$00#$F7#$AC#$04#$CF#$76#$2B#$1D#$4F#$8A#$C0#$7C#$50#$53#$A4#$F2#$02#$BB#$3A#$7E#$8C#$FE#$17#$A9#$5A#$C7#$95#$A3#$86#$F3#$48#$C0#$15#$BA#$8A);
+                   FixSize;
+                   Encrypt(GenerateIV(0),Random($FF));
+                   ClearPacket();
+                 End;
+                 Player.Send;
+               End;
                 
 
                 TCLPID(16): Lobby.SendRooms(Player);
