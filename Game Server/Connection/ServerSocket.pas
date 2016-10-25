@@ -1,9 +1,9 @@
-﻿unit ServerSocket;
+unit ServerSocket;
 
 interface
 
 uses System.Win.ScktComp, System.Generics.Collections, Player, Misc, System.SysUtils,
-     Windows, Unknown, DBCon, Shop, System.StrUtils, SortUS, Lobby,inifiles;
+     Windows, Unknown,Azit, DBCon, Shop, System.StrUtils, SortUS, Lobby,inifiles;
 
 type
   TServer = class
@@ -18,7 +18,9 @@ type
     Shop: TShop;
     SortUS: TSortUS;
     Socket: TServerSocket;
-    Nick: AnsiString;    
+    Nick: AnsiString;
+    CHARID: AnsiString;
+    Azit: TAzit;
     Lobby: TLobby;
     MySQL: TQuery;
     constructor Create(Port: Integer);
@@ -3594,7 +3596,7 @@ begin
                  TCLPID(1408):Begin
                  Player.Buffer.BIn:='';
                  With Player.Buffer do Begin
-                   MySQL.SetQuery('INSERT INTO characters(ID,CHARID)VALUES(:ID,1)');
+                   MySQL.SetQuery('INSERT INTO characters(ID,CHARID)VALUES(:ID,11)');
                    MySQL.AddParameter('ID',AnsiString(IntToStr(Player.AccInfo.ID)));
                    //MySQL.AddParameter('CHARID',AnsiString(CHARID));
                    MySQL.Run(1);
@@ -3608,12 +3610,58 @@ begin
                  End;
                  Player.Send;
                End;
-                
-
+                  TCLPID(423):Begin
+                  Player.Buffer.BIn:='';
+                    with Player.Buffer do Begin
+                    Write(Prefix);
+                    Write(Dword(Count));
+                    WriteCw(Word(424));
+                    Write(#$00#$00#$2A#$04#$00#$00#$00#$00#$00#$00#$00#$00#$00#$00#$00#$00#$00#$00 +
+                      #$3E#$93#$9B#$DF#$02#$AA#$28#$57#$68#$CB#$35#$46#$D7#$BE#$00#$81#$31#$CB#$0B#$73#$78#$D8#$E5#$A0#$7B#$AC#$2A#$1D#$51#$5D#$7B#$4C#$53#$00#$95#$88#$87#$1A#$C0#$9E +
+                      #$7C#$66#$04#$AB#$F6#$9B#$C4#$7F#$93#$00#$11#$90#$84#$C5#$B8#$71#$58#$E0#$B0#$15#$91#$6D#$71#$28#$98#$C9#$F1#$18#$08#$4C#$82#$21#$D9#$67#$37#$C4#$09#$5B#$03#$69 +
+                      #$DE#$68#$33#$DC#$FC#$25#$88#$0E#$B9#$68#$7F#$A5#$2B#$C5#$96#$FF#$45#$8A#$89#$F5#$9B#$3B#$60#$F1#$27#$E3#$C4#$30#$65#$5D#$8E#$31#$37#$40#$17#$28#$BF#$93#$12#$2C +
+                      #$8D#$2F#$99#$85#$F0#$80#$AC#$71#$F3#$F6#$EF#$3F#$79#$C8#$BF#$3E#$8D#$4C#$E1#$FF#$D5#$90#$BD#$49#$BE#$8E#$DD#$73#$D1#$9A#$21#$08#$06#$67#$78#$A7#$9D#$A6#$B3#$09 +
+                      #$DB#$20#$59#$5B#$64#$CF#$C6#$0B#$49#$D0#$B5#$50#$D8#$76#$D1#$A0#$A2#$48#$89#$5A#$34#$DB#$9E#$69#$F6#$9F#$88#$4D#$13#$E8#$6F#$27#$B3#$38#$13#$BC#$AC#$60#$69#$6B +
+                      #$A0#$2F#$04#$5F#$B4#$6D#$73#$1E#$AA#$5C#$90#$30#$96#$34#$9A#$52#$85#$B1#$77#$E6#$14#$45#$B7#$86#$74#$1C#$EF#$86#$FF#$0B#$04#$2B#$59#$08#$DF#$01#$66#$13#$6A#$29 +
+                      #$DF#$7F#$8B#$4A#$1B#$A3#$77#$1F#$61#$DF#$D1#$E8#$B5#$50#$39#$60#$D7#$1D#$7B#$86#$28#$0D#$14#$EF#$89#$7C#$B6#$02#$8A#$26#$D0#$BB#$61#$E0#$11#$F8#$B3#$56#$3D#$F6 +
+                      #$58#$2E#$EE#$53#$F5#$AE#$D4#$7A#$5D#$C8#$1E#$42#$80#$75#$83#$40#$31#$0A#$C9#$C9#$75#$38#$39#$8A#$C4#$CA#$62#$A3#$35#$E3#$C2#$3B#$BE#$52#$0E#$94#$D5#$DB#$ED#$C8 +
+                      #$B8#$E0#$35#$F4#$8D#$C6#$F5#$90#$DE#$A6#$38#$0C#$9A#$BF#$1D#$BE#$2A#$8A#$CA#$C4#$59#$2E#$00#$88#$37#$88#$AA#$5B#$73#$D8#$98#$45#$43#$E6#$35#$02#$61#$7B#$08#$3D +
+                      #$DC#$BD#$98#$7F#$CA#$3A#$86#$CF#$AD#$E1#$85#$7C#$6B#$09#$89#$C3#$79#$5A#$E3#$D2#$BE#$8F#$A5#$BF#$6A#$73#$DC#$A1#$AA#$3E#$A5#$24#$B2#$D4#$E6#$AB#$A4#$4E#$BE#$BD +
+                      #$E1#$09#$94#$ED#$AF#$9B#$BC#$B9#$DF#$FE#$61#$A5#$9A#$36#$2D#$C4#$A6#$55#$2A#$90#$4B#$56#$76#$EE#$1E#$4A#$1A#$86#$81#$0B#$6C#$52#$37#$CD#$5C#$24#$00#$65#$21#$71 +
+                      #$BA#$A1#$A0#$05#$25#$66#$FC#$13#$C4#$CE#$72#$E4#$C2#$FB#$74#$7E#$0C#$22#$08#$43#$39#$5F#$37#$90#$92#$BA#$D8#$FF#$6F#$AE#$F9#$03#$C8#$49#$1A#$F7#$77#$A9#$B0#$D6 +
+                      #$99#$CC#$40#$75#$74#$01#$E8#$36#$A3#$B7#$4C#$34#$2B#$EB#$CF#$B1#$DE#$54#$0C#$63#$0D#$9F#$86#$C0#$CF#$31#$7F#$E3#$EC#$73#$16#$42#$09#$C2#$B1#$0E#$BB#$12#$28#$1A +
+                      #$88#$05#$19#$26#$8D#$2E#$67#$85#$F3#$B8#$B0#$99#$F1#$06#$8B#$7A#$BB#$09#$35#$2E#$2C#$32#$58#$E4#$C4#$C1#$97#$E6#$97#$B7#$2C#$C2#$B4#$0B#$CF#$2F#$5C#$F9#$33#$C7 +
+                      #$91#$DD#$18#$02#$BA#$3F#$53#$E3#$34#$AC#$51#$9F#$4B#$62#$44#$0E#$44#$B7#$07#$82#$10#$DF#$2C#$94#$23#$DE#$5C#$F5#$2A#$64#$31#$8E#$CD#$28#$1E#$32#$F3#$07#$66#$0E +
+                      #$BD#$64#$7C#$B1#$90#$78#$11#$8F#$91#$F9#$6F#$81#$52#$1B#$27#$0F#$28#$27#$A9#$84#$7D#$6D#$6D#$7F#$24#$9F#$CC#$D5#$A6#$4F#$9E#$4E#$68#$6B#$D2#$1E#$C9#$39#$5F#$4B +
+                      #$A1#$65#$36#$3C#$0B#$43#$2B#$BC#$8F#$9F#$D0#$45#$78#$E9#$C9#$3D#$F4#$12#$4A#$9F#$E9#$67#$D7#$3D#$30#$03#$B7#$94#$08#$4B#$3B#$3D#$82#$8A#$1F#$41#$09#$36#$EF#$F9 +
+                      #$AA#$EF#$D1#$ED#$35#$C0#$0C#$44#$FD#$2D#$3C#$7B#$FB#$93#$A7#$03#$75#$65#$EA#$07#$A3#$45#$A5#$8F#$A5#$7C#$F6#$AF#$1D#$A9#$30#$48#$8D#$DB#$EB#$03#$04#$3F#$5A#$F6 +
+                      #$00#$CD#$F0#$A3#$43#$BB#$51#$BB#$21#$E5#$31#$DF#$04#$79#$F6#$A1#$A1#$31#$32#$24#$44#$5E#$2D#$1F#$EE#$33#$56#$72#$16#$A4#$E1#$46#$EA#$DF#$11#$44#$4C#$FF#$2E#$0D +
+                      #$E1#$33#$FD#$19#$32#$E1#$A8#$81#$9D#$25#$06#$30#$09#$36#$65#$96#$1D#$D5#$D5#$15#$8D#$9A#$CC#$9D#$D1#$B0#$51#$31#$68#$88#$40#$59#$05#$5F#$19#$EB#$39#$92#$47#$92#$D0#$58#$C1#$BB#$6A#$2A#$4D#$19#$AA#$FC#$7D#$A2#$D0#$0E#$D1#$BD#$34#$A1#$ED#$11#$44#$A0#$80#$C1#$79#$58#$8E#$E8#$D5#$31#$C8#$67#$82#$AF#$92#$BD#$C1#$18#$DB#$B4#$CA#$EC#$58#$49#$56#$D0#$11#$09#$07#$0E#$57#$1D#$0F#$9B#$16#$F9#$B6#$2E#$6E#$48#$8D#$A6#$1C#$0E#$2B#$27#$3B#$D8#$F2#$9A#$03#$63#$88#$A7#$CC#$E0#$25#$38#$5F#$49#$CB#$8F#$C4#$48#$95#$85#$56#$FD#$C0#$FC#$8E#$EF#$01#$87#$F9#$F1#$56#$E0#$9F#$A7#$0C#$79#$27#$B0#$48#$37#$56#$CC#$63#$62#$B2#$72#$65#$48#$83#$E9#$EA#$F4#$15#$C0#$54#$02#$53#$A8#$27#$33#$6B#$0A#$C1#$E5#$A0#$ED#$00#$91#$68#$9C#$20#$AC#$B9#$83#$8C#$A0#$01#$57#$F0#$0A#$C9#$2C#$CB#$C1#$3B#$31#$1C#$E9#$D8#$C9#$BB#$F9#$59#$63#$4E#$7C#$8C#$97#$FE#$C4#$A8#$C4#$67#$52#$0E#$7D#$CB#$FC#$86#$8C#$CA#$0A#$C5#$93#$70#$03#$4A#$A4#$D3#$42#$17#$18#$A1#$17#$46#$81#$B9#$F0#$9B#$60#$0D#$0A#$F5#$4A#$6D#$0F#$C4#$2C#$A8#$51);
+                      FixSize;
+                   Encrypt(GenerateIV(0),Random($FF));
+                   ClearPacket();
+                    End;
+                    Player.Send;
+                  End;
+                   TCLPID(14):Begin
+                    Player.Buffer.BIn:='';
+                    with Player.Buffer do Begin
+                    Write(Prefix);
+                    Write(Dword(Count));
+                    WriteCW(Word(SVPID_CHANNEL_LIST));
+                    FixSize;
+                    Encrypt(GenerateIV(0),Random($FF));
+                    ClearPacket()
+                    End;
+                    Player.Send;
+                   End;
                 TCLPID(16): Lobby.SendRooms(Player);
                 TCLPID(20): Lobby.EnterRoom(Player);
                 TCLPID(24): Lobby.CreateRoom(Player);
                 TCLPID(62): Lobby.EquipItem(Player);
+                TCLPID(1094): Azit.EnterAgit(Player);
+                TCLPID(1186): Azit.TutorialDone(Player);
+                TCLPID(1188): Azit.Tutorial(Player);
                 CLPID_EXITROOMREQUEST: Lobby.ExitRoom(Player);
                 CLPID_CHANGEGAMESETTINGS: Lobby.ChangeGameSettings(Player);
                 CLPID_CHANGEROOMSETTINGS: Lobby.ChangeRoomSettings(Player);
