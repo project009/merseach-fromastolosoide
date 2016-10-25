@@ -26,9 +26,11 @@ uses
   Shop in 'Functions\Shop.pas',
   SortUS in 'Functions\SortUS.pas',
   Lobby in 'Functions\Lobby.pas',
-  Nickname in 'Functions\Nickname.pas',  
+  Nickname in 'Functions\Nickname.pas',
   Pets in 'Functions\Pets.pas',
-  Packets in 'Functions\Packets.pas';
+  CHARID in 'Functions\CHARID.pas',
+  Packets in 'Functions\Packets.pas',
+  Azit in 'Functions\Azit.pas';
 
 var
   Msg: TMsg;
